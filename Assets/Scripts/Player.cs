@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private float speed = 5;
     private CharacterController controller;
 
     // Start is called before the first frame update
@@ -21,6 +22,6 @@ public class Player : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        controller.Move(Vector3.right * horizontalInput * Time.deltaTime);
+        controller.Move(Vector3.right * horizontalInput * speed * Time.deltaTime);
     }
 }
