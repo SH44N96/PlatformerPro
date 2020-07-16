@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
+    [SerializeField] private float gravity = 10;
     private CharacterController controller;
 
     // Start is called before the first frame update
@@ -21,7 +22,18 @@ public class Player : MonoBehaviour
     void Update()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
+        Vector3 direction = new Vector3(horizontalInput, 0, 0);
+        Vector3 velocity = direction * speed;
 
-        controller.Move(Vector3.right * horizontalInput * speed * Time.deltaTime);
+        if(controller.isGrounded)
+        {
+
+        }
+        else
+        {
+            velocity.y -= gravity;
+        }
+
+        controller.Move(velocity * Time.deltaTime);
     }
 }
