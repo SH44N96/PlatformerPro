@@ -5,9 +5,10 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
-    [SerializeField] private float gravity = 10;
+    [SerializeField] private float gravity = 1;
     [SerializeField] private float jumpHeight = 15;
     private CharacterController controller;
+    private float yVelocity;
 
     // Start is called before the first frame update
     void Start()
@@ -30,13 +31,15 @@ public class Player : MonoBehaviour
         {
             if(Input.GetKeyDown(KeyCode.Space))
             {
-                velocity.y += jumpHeight;
+                yVelocity = jumpHeight;
             }
         }
         else
         {
-            velocity.y -= gravity;
+            yVelocity -= gravity;
         }
+
+        velocity.y = yVelocity;
 
         controller.Move(velocity * Time.deltaTime);
     }

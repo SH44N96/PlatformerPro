@@ -491,6 +491,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+  gravity: 1
+  jumpHeight: 15
 --- !u!23 &1109392769
 MeshRenderer:
   m_ObjectHideFlags: 0
