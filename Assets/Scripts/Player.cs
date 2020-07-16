@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float speed = 5;
     [SerializeField] private float gravity = 10;
+    [SerializeField] private float jumpHeight = 15;
     private CharacterController controller;
 
     // Start is called before the first frame update
@@ -27,7 +28,10 @@ public class Player : MonoBehaviour
 
         if(controller.isGrounded)
         {
-
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                velocity.y += jumpHeight;
+            }
         }
         else
         {
