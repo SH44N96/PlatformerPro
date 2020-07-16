@@ -1,12 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private GameObject respawnPoint;
     [SerializeField] private float speed = 5;
     [SerializeField] private float gravity = 1;
     [SerializeField] private float jumpHeight = 20;
+    [SerializeField] private float deadZoneY = -100;
+    [SerializeField] private int lives = 3;
     private UIManager uiManager;
     private CharacterController controller;
     private float yVelocity;
@@ -21,6 +25,8 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Player: UIManager is NULL");
         }
+
+        uiManager.UpdateLivesDisplay(lives);
 
         controller = GetComponent<CharacterController>();
         if(controller == null)
@@ -61,6 +67,31 @@ public class Player : MonoBehaviour
         velocity.y = yVelocity;
 
         controller.Move(velocity * Time.deltaTime);
+
+        if(transform.position.y <= deadZoneY)
+        {
+            Damage();
+        }
+    }
+
+    void Damage()
+    {
+        controller.enabled = false;
+
+        lives--;
+
+        if(lives <= 0)
+        {
+            SceneManager.LoadScene(0);
+        }
+        else
+        {
+            uiManager.UpdateLivesDisplay(lives);
+            
+            transform.position = respawnPoint.transform.position;
+
+            controller.enabled = true;
+        }
     }
 
     public void AddCoins()
