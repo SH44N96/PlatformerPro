@@ -6,16 +6,21 @@ public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] private Transform targetA, targetB;
     [SerializeField] private float speed = 5;
+    private Player player;
     private bool switching;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.Find("Player").GetComponent<Player>();
+        if(player == null)
+        {
+            Debug.LogError("MovingPlatform: Player is NULL");
+        }
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if(transform.position == targetA.position)
         {
@@ -33,6 +38,22 @@ public class MovingPlatform : MonoBehaviour
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, targetB.position, speed * Time.deltaTime);
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            player.transform.parent = this.transform;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "Player")
+        {
+            player.transform.parent = null;
         }
     }
 }
